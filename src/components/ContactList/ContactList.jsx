@@ -5,6 +5,10 @@ import {
   fetchContacts,
   deleteContact,
 } from '../../redux/contacts/contactsOperations';
+import {
+  selectFilteredContacts,
+  selectIsLoading,
+} from '../../redux/contacts/contactsSelectors';
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
@@ -13,28 +17,30 @@ export const ContactsList = () => {
     dispatch(fetchContacts()); // Завантаження данних
   }, [dispatch]);
 
-  const contacts = useSelector(state => state.contacts.items);
-// ОТРИМАННЯ МАСИВУ ДАННИХ
-// const isLoading = useSelector(getIsLoading);
-// const filteredContacts = useSelector(getFilteredContacts);
-  
+  const contacts = useSelector(selectFilteredContacts);
+  const isLoading = useSelector(selectIsLoading);
+
   return (
-    <ul className={css.list}>
-      {contacts.map(contact => (
-        <li className={css.item} key={contact.id}>
-          <p className={css.contact_name}>{contact.name}</p>
-          <p className={css.contact_number}>{contact.phone}</p>
-          <button
-            onClick={() => dispatch(deleteContact(contact.id))}
-            className={css.button}
-            type="button"
-          >
-            X
-          </button>
-        </li>
-      ))}
-    </ul>
+    <div>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul className={css.list}>
+          {contacts.map(contact => (
+            <li className={css.item} key={contact.id}>
+              <p className={css.contact_name}>{contact.name}</p>
+              <p className={css.contact_number}>{contact.phone}</p>
+              <button
+                onClick={() => dispatch(deleteContact(contact.id))}
+                className={css.button}
+                type="button"
+              >
+                X
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
-
-
