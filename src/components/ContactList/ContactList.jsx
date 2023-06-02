@@ -14,7 +14,7 @@ export const ContactsList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchContacts()); // Завантаження данних
+    dispatch(fetchContacts()); 
   }, [dispatch]);
 
   const contacts = useSelector(selectFilteredContacts);
